@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  rockstars:
+    image: ${DOCKER_REGISTRY-}rockstars
+    build:
+      context: ./RockStars
+      dockerfile: Dockerfile
+
+  database:
+    image: "postgres" # use latest official postgres version
+    container_name: PostgresSQL
+    env_file:
+      - database.env # configure postgres
+    volumes:
+      - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
+
+volumes:
+  database-data: # named volumes can be managed easier using docker-compose
